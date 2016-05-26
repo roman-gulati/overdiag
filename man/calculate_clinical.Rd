@@ -42,13 +42,13 @@ This function expects that the input data frame \code{dset} contains
 library(plyr)
 library(reshape)
 dset <- generate_absence(1000, 10, 0.001, 0, 6)
-cset <- plyr::ddply(dset,
-                    "sojourn",
-                    calculate_clinical,
-                    screen.start.year=0,
-                    screen.stop.year=10,
-                    attendance=0.8,
-                    sensitivity=0.5)
+cset <- ddply(dset,
+              .(sojourn),
+              calculate_clinical,
+              screen.start.year=0,
+              screen.stop.year=10,
+              attendance=0.8,
+              sensitivity=0.5)
 print(head(cset))
 }
 \seealso{
