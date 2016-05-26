@@ -1,0 +1,59 @@
+#' Simulate cancer incidence in the presence of screening.
+#'
+#' Screen a simulated population using specified sensitivity and count screen
+#' diagnoses in each year of screening for relevant cancers that develop in each
+#' year with a given sojourn time.
+#'
+#' @param dset A data frame of simulated population as produced by
+#'   \code{generate_absence}.
+#' @param followup.years Number of years of follow-up.
+#' @param screen.start.year Year of follow-up at which screening starts.
+#' @param screen.stop.year Year of follow-up at which screening stops.
+#' @param sojourn.min Minimum years of preclinical detectable period.
+#' @param sojourn.max Maximum years of preclinical detectable period.
+#' @param attendance Proportion of individuals who attend screening tests.
+#' @param sensitivity Proportion of relevant cancers detected by screening.
+#' @return A data frame of simulated cancer incidence organized by year
+#'   of preclinical onset, sojourn time, and year of clinical diagnosis.
+#' @seealso \code{\link{generate_absence}}, \code{\link{generate_overdiag}}
+#' @examples
+#' library(plyr)
+#' library(reshape)
+#' dset <- generate_absence(1000, 10, 0.001, 0, 6)
+#' dset <- generate_presence(dset, 10, 0, 10, 0, 6, 0.8, 0.5)
+#' print(head(dset))
+#' @export
+
+generate_presence <- function(dset,
+                              followup.years,
+                              screen.start.year,
+                              screen.stop.year,
+                              sojourn.min,
+                              sojourn.max,
+                              attendance,
+                              sensitivity){
+    followup.years <- floor(followup.years)
+    screen.start.year <- floor(screen.start.year)
+    screen.stop.year <- floor(screen.stop.year)
+    stopifnot(0 <= screen.start.year & screen.start.year <= screen.stop.year)
+    stopifnot(screen.stop.year <= followup.years)
+    stopifnot(0 <= attendance & attendance <= 1)
+    stopifnot(0 <= sensitivity & sensitivity <= 1)
+    dset <- ddply(dset,
+                  .(sojourn),
+                  calculate_clinical,
+                  screen.start.year=screen.start.year,
+                  screen.stop.year=screen.stop.year,
+                  attendance=attendance,
+                  sensitivity=sensitivity)
+    dset <- ddply(dset,
+                  .(sojourn),
+                  calculate_screen,
+                  screen.start.year=screen.start.year,
+                  screen.stop.year=screen.stop.year,
+                  attendance=attendance,
+                  sensitivity=sensitivity)
+    dset <- subset(dset, select=-tests_offered)
+    return(dset)
+}
+
