@@ -8,10 +8,10 @@ calculate_clinical(dset, sensitivity, attendance, screen.start.year,
   screen.stop.year)
 }
 \arguments{
-\item{dset}{A data frame of cancer incidence as produced by
+\item{dset}{A data frame of disease incidence as produced by
 \code{generate_absence}.}
 
-\item{sensitivity}{Proportion of relevant cancers detected by screening.}
+\item{sensitivity}{Proportion of relevant disease detected by screening.}
 
 \item{attendance}{Proportion of individuals who attend screening tests.}
 
@@ -20,23 +20,23 @@ calculate_clinical(dset, sensitivity, attendance, screen.start.year,
 \item{screen.stop.year}{Year of follow-up at which screening stops.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year of
+A data frame of simulated disease incidence organized by year of
   preclinical onset, sojourn time, and year of clinical diagnosis.
 }
 \description{
 Append to input data frame number of screen tests offered and number of
-interval cancers not detected by screening.
+interval cases not detected by screening.
 }
 \details{
 This function expects that the input data frame \code{dset} contains
   a variable \code{sojourn} with a single unique value. The number of false
   negatives are bounded by (1) the later of onset and the start of screening
   and (2) the earlier of clinical presentation and the end of screening.
-  Cancers present clinically when all screening tests are false negatives.
+  Disease presents clinically when all screening tests are false negatives.
   Imperfect attendance is represented by removing the expected number of
-  cancers in individuals who attend a sensitive test scaled by the number of
+  cases in individuals who attend a sensitive test scaled by the number of
   tests offered. In other words, false negative tests represent either not
-  attending a test or attending a test but it does not detect latent cancer.
+  attending a test or attending a test but it does not detect latent disease.
 }
 \examples{
 library(plyr)

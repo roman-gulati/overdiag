@@ -1,24 +1,24 @@
 #' Calculate clinical incidence in the presence of screening.
 #'
 #' Append to input data frame number of screen tests offered and number of
-#' interval cancers not detected by screening.
+#' interval cases not detected by screening.
 #'
 #' @details This function expects that the input data frame \code{dset} contains
 #'   a variable \code{sojourn} with a single unique value. The number of false
 #'   negatives are bounded by (1) the later of onset and the start of screening
 #'   and (2) the earlier of clinical presentation and the end of screening.
-#'   Cancers present clinically when all screening tests are false negatives.
+#'   Disease presents clinically when all screening tests are false negatives.
 #'   Imperfect attendance is represented by removing the expected number of
-#'   cancers in individuals who attend a sensitive test scaled by the number of
+#'   cases in individuals who attend a sensitive test scaled by the number of
 #'   tests offered. In other words, false negative tests represent either not
-#'   attending a test or attending a test but it does not detect latent cancer.
-#' @param dset A data frame of cancer incidence as produced by
+#'   attending a test or attending a test but it does not detect latent disease.
+#' @param dset A data frame of disease incidence as produced by
 #'   \code{generate_absence}.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param attendance Proportion of individuals who attend screening tests.
-#' @param sensitivity Proportion of relevant cancers detected by screening.
-#' @return A data frame of simulated cancer incidence organized by year of
+#' @param sensitivity Proportion of relevant disease detected by screening.
+#' @return A data frame of simulated disease incidence organized by year of
 #'   preclinical onset, sojourn time, and year of clinical diagnosis.
 #' @seealso \code{\link{calculate_screen}}
 #' @examples

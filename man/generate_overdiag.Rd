@@ -10,15 +10,15 @@ generate_overdiag(dset, overdiag.rate)
 \item{dset}{data frame of simulated population as produced by
 \code{generate_absence} after processing by \code{generate_presence}.}
 
-\item{overdiag.rate}{Proportion of screen-detected cancers that are
+\item{overdiag.rate}{Proportion of screen-detected cases that are
 overdiagnosed.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year of
+A data frame of simulated disease incidence organized by year of
   preclinical onset, sojourn time, and year of clinical diagnosis.
 }
 \description{
-Append to input data frame the number of overdiagnosed cancers given the
+Append to input data frame the number of overdiagnosed cases given the
 specified frequency of overdiagnosis.
 }
 \examples{

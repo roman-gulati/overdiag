@@ -1,19 +1,19 @@
-#' Simulate cancer incidence in a population setting.
+#' Simulate incidence under simple dissemination of screening in a population.
 #'
 #' Generate a data frame representing a population of \code{pop.size}
-#' individuals and record relevant cancers diagnosed with and without screening
-#' and overdiagnosed cancers.
+#' individuals and record relevant disease diagnosed with and without screening
+#' and overdiagnoses under simple dissemination of screening.
+#'
 #' @param pop.size Number of individuals in the simulated population.
-#' @param onset.rate Annual incidence rate of relevant preclinical cancers.
+#' @param onset.rate Annual incidence rate of relevant preclinical disease.
 #' @param sojourn.min Shortest relevant preclinical duration.
 #' @param sojourn.max Longest relevant preclinical duration.
 #' @param sensitivity Screen test episode sensitivity.
-#' @param overdiag.rate Proportion of screen-detected cancers that are
-#'   overdiagnosed.
+#' @param overdiag.rate Proportion of screen detections that are overdiagnosed.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param followup.years Number of years of follow-up.
-#' @return A data frame of simulated cancer incidence organized by year of
+#' @return A data frame of simulated disease incidence organized by year of
 #'   preclinical onset, sojourn time, and year of diagnosis.
 #' @seealso \code{\link{trial_setting}}
 #' @examples
@@ -92,7 +92,7 @@ population_setting <- function(pop.size=1e5,
                                followup.years=30){
     # generate population of pop.size individuals and
     # record year of clinical diagnosis for batches of relevant
-    # cancers that develop in each year with a given sojourn time
+    # disease that develops in each year with a given sojourn time
     pset <- generate_absence(pop.size,
                              onset.rate,
                              sojourn.min,
@@ -100,7 +100,7 @@ population_setting <- function(pop.size=1e5,
                              followup.years)
     # screen the population under assumed sensitivity by
     # counting screen diagnoses in each year of screening
-    # for batches of relevant cancers that develop in each
+    # for batches of relevant disease that develops in each
     # year with a given sojourn time
     pset <- generate_presence(pset,
                               sojourn.min,

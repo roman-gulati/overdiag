@@ -2,7 +2,7 @@
 % Please edit documentation in R/population_setting.R
 \name{population_setting}
 \alias{population_setting}
-\title{Simulate cancer incidence in a population setting.}
+\title{Simulate incidence under simple dissemination of screening in a population.}
 \usage{
 population_setting(pop.size = 1e+05, onset.rate = 0.001, sojourn.min = 0,
   sojourn.max = 6, sensitivity = 0.5, overdiag.rate = 0.25,
@@ -11,7 +11,7 @@ population_setting(pop.size = 1e+05, onset.rate = 0.001, sojourn.min = 0,
 \arguments{
 \item{pop.size}{Number of individuals in the simulated population.}
 
-\item{onset.rate}{Annual incidence rate of relevant preclinical cancers.}
+\item{onset.rate}{Annual incidence rate of relevant preclinical disease.}
 
 \item{sojourn.min}{Shortest relevant preclinical duration.}
 
@@ -19,8 +19,7 @@ population_setting(pop.size = 1e+05, onset.rate = 0.001, sojourn.min = 0,
 
 \item{sensitivity}{Screen test episode sensitivity.}
 
-\item{overdiag.rate}{Proportion of screen-detected cancers that are
-overdiagnosed.}
+\item{overdiag.rate}{Proportion of screen detections that are overdiagnosed.}
 
 \item{screen.start.year}{Year of follow-up at which screening starts.}
 
@@ -29,13 +28,13 @@ overdiagnosed.}
 \item{followup.years}{Number of years of follow-up.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year of
+A data frame of simulated disease incidence organized by year of
   preclinical onset, sojourn time, and year of diagnosis.
 }
 \description{
 Generate a data frame representing a population of \code{pop.size}
-individuals and record relevant cancers diagnosed with and without screening
-and overdiagnosed cancers.
+individuals and record relevant disease diagnosed with and without screening
+and overdiagnoses under simple dissemination of screening.
 }
 \examples{
 library(plyr)

@@ -1,20 +1,19 @@
-#' Simulate cancer incidence in a trial setting.
+#' Simulate incidence in a trial setting.
 #'
 #' Generate a data frame representing a screening trial of \code{arm.size}
-#' individuals in each arm and record relevant cancers diagnosed with and
-#' without screening and overdiagnosed cancers.
+#' individuals in each arm and record relevant disease diagnosed with and
+#' without screening and overdiagnoses.
 #' @param arm.size Number of individuals in each trial arm.
-#' @param onset.rate Annual incidence rate of relevant preclinical cancers.
+#' @param onset.rate Annual incidence rate of relevant preclinical disease.
 #' @param sojourn.min Shortest relevant preclinical duration.
 #' @param sojourn.max Longest relevant preclinical duration.
 #' @param sensitivity Screen test episode sensitivity.
 #' @param attendance Proportion of participants who attend a screen test.
-#' @param overdiag.rate Proportion of screen-detected cancers that are
-#'   overdiagnosed.
+#' @param overdiag.rate Proportion of screen detections that are overdiagnosed.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param followup.years Number of years of follow-up.
-#' @return A data frame of simulated cancer incidence organized by year of
+#' @return A data frame of simulated disease incidence organized by year of
 #'   preclinical onset, sojourn time, and year of diagnosis.
 #' @seealso \code{\link{population_setting}}
 #' @examples
@@ -77,7 +76,7 @@ trial_setting <- function(arm.size=50000,
                           followup.years=30){
     # generate trial population of arm.size individuals and
     # record year of clinical diagnosis for batches of relevant
-    # cancers that develop in each year with a given sojourn time
+    # disease that develops in each year with a given sojourn time
     # to serve as a basis for either arm
     tset <- generate_absence(arm.size,
                              onset.rate,
@@ -86,7 +85,7 @@ trial_setting <- function(arm.size=50000,
                              followup.years)
     # construct the control arm by "screening" the trial population
     # under 0 sensitivity and counting screen diagnoses in each year
-    # of screening for batches of relevant cancers that develop in each
+    # of screening for batches of relevant disease that develops in each
     # year with a given sojourn time
     cset <- generate_presence(tset,
                               sojourn.min,
@@ -127,7 +126,7 @@ trial_setting <- function(arm.size=50000,
     # to construct the screen arm
     # construct the screen arm by screening the trial population under
     # given sensitivity and counting screen diagnoses in each year of
-    # screening for batches of relevant cancers that develop in each
+    # screening for batches of relevant disease that develops in each
     # year with a given sojourn time
     sset <- generate_presence(tset,
                               sojourn.min,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/trial_setting.R
 \name{trial_setting}
 \alias{trial_setting}
-\title{Simulate cancer incidence in a trial setting.}
+\title{Simulate incidence in a trial setting.}
 \usage{
 trial_setting(arm.size = 50000, onset.rate = 0.001, sojourn.min = 0,
   sojourn.max = 6, sensitivity = 0.5, attendance = 0.8,
@@ -12,7 +12,7 @@ trial_setting(arm.size = 50000, onset.rate = 0.001, sojourn.min = 0,
 \arguments{
 \item{arm.size}{Number of individuals in each trial arm.}
 
-\item{onset.rate}{Annual incidence rate of relevant preclinical cancers.}
+\item{onset.rate}{Annual incidence rate of relevant preclinical disease.}
 
 \item{sojourn.min}{Shortest relevant preclinical duration.}
 
@@ -22,8 +22,7 @@ trial_setting(arm.size = 50000, onset.rate = 0.001, sojourn.min = 0,
 
 \item{attendance}{Proportion of participants who attend a screen test.}
 
-\item{overdiag.rate}{Proportion of screen-detected cancers that are
-overdiagnosed.}
+\item{overdiag.rate}{Proportion of screen detections that are overdiagnosed.}
 
 \item{screen.start.year}{Year of follow-up at which screening starts.}
 
@@ -32,13 +31,13 @@ overdiagnosed.}
 \item{followup.years}{Number of years of follow-up.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year of
+A data frame of simulated disease incidence organized by year of
   preclinical onset, sojourn time, and year of diagnosis.
 }
 \description{
 Generate a data frame representing a screening trial of \code{arm.size}
-individuals in each arm and record relevant cancers diagnosed with and
-without screening and overdiagnosed cancers.
+individuals in each arm and record relevant disease diagnosed with and
+without screening and overdiagnoses.
 }
 \examples{
 library(plyr)

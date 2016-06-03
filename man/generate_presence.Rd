@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_presence.R
 \name{generate_presence}
 \alias{generate_presence}
-\title{Simulate cancer incidence in the presence of screening.}
+\title{Simulate incidence in the presence of screening.}
 \usage{
 generate_presence(dset, sojourn.min, sojourn.max, sensitivity, attendance,
   screen.start.year, screen.stop.year, followup.years)
@@ -15,7 +15,7 @@ generate_presence(dset, sojourn.min, sojourn.max, sensitivity, attendance,
 
 \item{sojourn.max}{Maximum years of preclinical detectable period.}
 
-\item{sensitivity}{Proportion of relevant cancers detected by screening.}
+\item{sensitivity}{Proportion of relevant disease detected by screening.}
 
 \item{attendance}{Proportion of individuals who attend screening tests.}
 
@@ -26,12 +26,12 @@ generate_presence(dset, sojourn.min, sojourn.max, sensitivity, attendance,
 \item{followup.years}{Number of years of follow-up.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year
+A data frame of simulated disease incidence organized by year
   of preclinical onset, sojourn time, and year of clinical diagnosis.
 }
 \description{
 Screen a simulated population using specified sensitivity and count screen
-diagnoses in each year of screening for relevant cancers that develop in each
+diagnoses in each year of screening for relevant disease that develops in each
 year with a given sojourn time.
 }
 \examples{

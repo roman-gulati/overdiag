@@ -4,11 +4,11 @@
 \name{overdiag}
 \alias{overdiag}
 \alias{overdiag-package}
-\title{overdiag: A package to investigate estimates of cancer overdiagnosis}
+\title{overdiag: A package to investigate empirical estimates of overdiagnosis}
 \description{
-This package implements a deterministic model that can be used to project
-cancer incidence in population and trial settings. The projections can be
-used to examine bias in empirical estimates of overdiagnosis and/or determine
-the first time point at which empirical estimates are unbiased.
+This package implements a deterministic model to project disease incidence in
+population and trial settings. The projections can be used to examine bias in
+empirical estimates of overdiagnosis and/or determine the first time point at
+which empirical estimates are unbiased.
 }
 

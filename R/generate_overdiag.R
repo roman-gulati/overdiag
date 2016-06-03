@@ -1,13 +1,13 @@
 #' Simulate incidence of overdiagnosis.
 #'
-#' Append to input data frame the number of overdiagnosed cancers given the
+#' Append to input data frame the number of overdiagnosed cases given the
 #' specified frequency of overdiagnosis.
 #'
 #' @param dset data frame of simulated population as produced by
 #'   \code{generate_absence} after processing by \code{generate_presence}.
-#' @param overdiag.rate Proportion of screen-detected cancers that are
+#' @param overdiag.rate Proportion of screen-detected cases that are
 #'   overdiagnosed.
-#' @return A data frame of simulated cancer incidence organized by year of
+#' @return A data frame of simulated disease incidence organized by year of
 #'   preclinical onset, sojourn time, and year of clinical diagnosis.
 #' @seealso \code{\link{generate_absence}}, \code{\link{generate_presence}}
 #' @examples

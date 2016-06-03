@@ -1,18 +1,17 @@
-#' Simulate cancer incidence in the absence of screening.
+#' Simulate incidence in the absence of screening.
 #'
 #' Generate a data frame representing a population of \code{pop.size}
-#' individuals and record year of clinical diagnosis for relevant cancers that
-#' develop in each year with a given sojourn time distribution under specified
+#' individuals and record year of clinical diagnosis for relevant disease that
+#' develops in each year with a given sojourn time distribution under specified
 #' follow-up.
 #'
 #' @param pop.size Number of individuals in the simulated population.
-#' @param onset.rate Individual rate at which relevant preclinical cancers
-#'   develop each year.
+#' @param onset.rate Annual incidence rate of relevant preclinical disease.
 #' @param sojourn.min Minimum years of preclinical detectable period.
 #' @param sojourn.max Maximum years of preclinical detectable period.
 #' @param followup.years Number of years of follow-up.
-#' @return A data frame of simulated cancer incidence organized by year of
-#'   preclinical onset, number of preclinical cancers, sojourn time, and year of
+#' @return A data frame of simulated disease incidence organized by year of
+#'   preclinical onset, number of preclinical cases, sojourn time, and year of
 #'   clinical diagnosis.
 #' @seealso \code{\link{generate_presence}}, \code{\link{generate_overdiag}}
 #' @examples

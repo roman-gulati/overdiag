@@ -30,7 +30,7 @@ overdiag.rate <- 0.25
 
 dset <- generate_overdiag(dset, overdiag.rate)
 
-test_that('Overdiagnosed cancers is correct fraction of screen cancers', {
+test_that('Overdiagnosed disease is correct fraction of screen detections', {
           expect_equal(sum(dset$count_screen)*overdiag.rate/(1-overdiag.rate),
                        sum(dset$count_overdiag))
 })

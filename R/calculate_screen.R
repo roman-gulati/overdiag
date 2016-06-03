@@ -1,6 +1,6 @@
 #' Calculate screen incidence in the presence of screening.
 #'
-#' Expand input data frame to indicate year of diagnosis and number of cancers
+#' Expand input data frame to indicate year of diagnosis and number of cases
 #' detected by screening.
 #'
 #' @details This function expects that the input data frame \code{dset} contains
@@ -10,13 +10,13 @@
 #'   and (2) above by number of tests - 1 and sojourn time - 1 Check that
 #'   incidence of onset matches diagnoses. Reshape dataset to indicate number of
 #'   screen detections in each screen year.
-#' @param dset A data frame of cancer incidence as produced by
+#' @param dset A data frame of disease incidence as produced by
 #'   \code{generate_absence} after processing by \code{calculate_clinical}.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param attendance Proportion of individuals who attend screening tests.
-#' @param sensitivity Proportion of relevant cancers detected by screening.
-#' @return A data frame of simulated cancer incidence organized by year of
+#' @param sensitivity Proportion of relevant disease detected by screening.
+#' @return A data frame of simulated disease incidence organized by year of
 #'   preclinical onset, sojourn time, and year of clinical diagnosis.
 #' @seealso \code{\link{calculate_clinical}}
 #' @examples

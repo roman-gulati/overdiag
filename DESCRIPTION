@@ -1,11 +1,11 @@
 Package: overdiag
-Title: Project incidence of relevant and overdiagnosed cancers
+Title: A package to investigate empirical estimates of overdiagnosis
 Version: 0.0.1
 Authors@R: person("Roman", "Gulati", email="rgulati@fredhutch.org", role=c("aut", "cre"))
-Description: A deterministic model that can be used to project cancer incidence
-  in population and trial settings. The projections can be used to examine bias
-  in empirical estimates of overdiagnosis and/or determine the first time point
-  at which empirical estimates are unbiased.
+Description: This package implements a deterministic model to project disease
+  incidence in population and trial settings. The projections can be used to
+  examine bias in empirical estimates of overdiagnosis and/or determine the
+  first time point at which empirical estimates are unbiased.
 URL: http://github.com/roman-gulati/overdiag
 BugReports: http://github.com/roman-gulati/overdiag/issues
 Depends:

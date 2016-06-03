@@ -2,15 +2,14 @@
 % Please edit documentation in R/generate_absence.R
 \name{generate_absence}
 \alias{generate_absence}
-\title{Simulate cancer incidence in the absence of screening.}
+\title{Simulate incidence in the absence of screening.}
 \usage{
 generate_absence(pop.size, onset.rate, sojourn.min, sojourn.max, followup.years)
 }
 \arguments{
 \item{pop.size}{Number of individuals in the simulated population.}
 
-\item{onset.rate}{Individual rate at which relevant preclinical cancers
-develop each year.}
+\item{onset.rate}{Annual incidence rate of relevant preclinical disease.}
 
 \item{sojourn.min}{Minimum years of preclinical detectable period.}
 
@@ -19,14 +18,14 @@ develop each year.}
 \item{followup.years}{Number of years of follow-up.}
 }
 \value{
-A data frame of simulated cancer incidence organized by year of
-  preclinical onset, number of preclinical cancers, sojourn time, and year of
+A data frame of simulated disease incidence organized by year of
+  preclinical onset, number of preclinical cases, sojourn time, and year of
   clinical diagnosis.
 }
 \description{
 Generate a data frame representing a population of \code{pop.size}
-individuals and record year of clinical diagnosis for relevant cancers that
-develop in each year with a given sojourn time distribution under specified
+individuals and record year of clinical diagnosis for relevant disease that
+develops in each year with a given sojourn time distribution under specified
 follow-up.
 }
 \examples{

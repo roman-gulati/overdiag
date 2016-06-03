@@ -1,19 +1,19 @@
-#' Simulate cancer incidence in the presence of screening.
+#' Simulate incidence in the presence of screening.
 #'
 #' Screen a simulated population using specified sensitivity and count screen
-#' diagnoses in each year of screening for relevant cancers that develop in each
+#' diagnoses in each year of screening for relevant disease that develops in each
 #' year with a given sojourn time.
 #'
 #' @param dset A data frame of simulated population as produced by
 #'   \code{generate_absence}.
 #' @param sojourn.min Minimum years of preclinical detectable period.
 #' @param sojourn.max Maximum years of preclinical detectable period.
-#' @param sensitivity Proportion of relevant cancers detected by screening.
+#' @param sensitivity Proportion of relevant disease detected by screening.
 #' @param attendance Proportion of individuals who attend screening tests.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param followup.years Number of years of follow-up.
-#' @return A data frame of simulated cancer incidence organized by year
+#' @return A data frame of simulated disease incidence organized by year
 #'   of preclinical onset, sojourn time, and year of clinical diagnosis.
 #' @seealso \code{\link{generate_absence}}, \code{\link{generate_overdiag}}
 #' @examples
