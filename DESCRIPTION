@@ -1,6 +1,6 @@
 Package: overdiag
 Title: A package to investigate empirical estimates of overdiagnosis
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: person("Roman", "Gulati", email="rgulati@fredhutch.org", role=c("aut", "cre"))
 Description: This package implements a deterministic model to project disease
   incidence in population and trial settings. The projections can be used to
@@ -14,7 +14,8 @@ Imports:
     plyr (>= 1.8.3),
     reshape (>= 0.8.5)
 Suggests:
-    testthat (>= 0.10.0)
+    testthat (>= 0.10.0),
+    ggplot2 (>= 2.1.0)
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

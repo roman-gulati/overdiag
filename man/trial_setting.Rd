@@ -75,7 +75,6 @@ trial_incidence_3types <- function(){
                                         screen.start.year=screen.start.year,
                                         screen.stop.year=screen.stop.year))
                   )
-    tset <- transform(tset, count_clinical=ifelse(year == 0, 0, count_clinical))
     newscreen <- subset(tset, arm == 'screen' & type == 'screen-continue')
     newcontrol <- subset(tset, arm == 'screen' & type == 'screen-continue-delay')
     newscreen <- transform(newscreen, type='screen-continue-control-start')

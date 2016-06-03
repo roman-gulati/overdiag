@@ -3,6 +3,7 @@
 #' Generate a data frame representing a screening trial of \code{arm.size}
 #' individuals in each arm and record relevant disease diagnosed with and
 #' without screening and overdiagnoses.
+#'
 #' @param arm.size Number of individuals in each trial arm.
 #' @param onset.rate Annual incidence rate of relevant preclinical disease.
 #' @param sojourn.min Shortest relevant preclinical duration.
@@ -52,7 +53,6 @@
 #'                                         screen.start.year=screen.start.year,
 #'                                         screen.stop.year=screen.stop.year))
 #'                   )
-#'     tset <- transform(tset, count_clinical=ifelse(year == 0, 0, count_clinical))
 #'     newscreen <- subset(tset, arm == 'screen' & type == 'screen-continue')
 #'     newcontrol <- subset(tset, arm == 'screen' & type == 'screen-continue-delay')
 #'     newscreen <- transform(newscreen, type='screen-continue-control-start')
@@ -167,6 +167,8 @@ trial_setting <- function(arm.size=50000,
     merged <- rbind(control_arm, screen_arm)
     # restrict to given years of follow-up
     merged <- subset(merged, 0 <= year & year <= followup.years)
+    # coerce clinical disease at start to 0
+    merged <- transform(merged, count_clinical=ifelse(year == 0, 0, count_clinical))
     return(merged)
 }
 
