@@ -1,37 +1,37 @@
 context('Calculated screen incidence in the presence of screening')
 
 pop.size <- 1000
-followup.years <- 10
 onset.rate <- 0.001
 sojourn.min <- 0
 sojourn.max <- 6
+followup.years <- 10
 
 dset <- generate_absence(pop.size,
-                         followup.years,
                          onset.rate,
                          sojourn.min,
-                         sojourn.max)
+                         sojourn.max,
+                         followup.years)
 
+sensitivity <- 0.5
+attendance <- 0.8
 screen.start.year <- 2
 screen.stop.year <- 8
-attendance <- 0.8
-sensitivity <- 0.5
 
 dset <- ddply(dset,
               .(sojourn),
               calculate_clinical,
-              screen.start.year=screen.start.year,
-              screen.stop.year=screen.stop.year,
+              sensitivity=sensitivity,
               attendance=attendance,
-              sensitivity=sensitivity)
+              screen.start.year=screen.start.year,
+              screen.stop.year=screen.stop.year)
 
 dset <- ddply(dset,
               .(sojourn),
               calculate_screen,
-              screen.start.year=screen.start.year,
-              screen.stop.year=screen.stop.year,
+              sensitivity=sensitivity,
               attendance=attendance,
-              sensitivity=sensitivity)
+              screen.start.year=screen.start.year,
+              screen.stop.year=screen.stop.year)
 
 test_that('Data frame has correct number of rows', {
           sojourn.time.range <- seq(sojourn.min, sojourn.max)

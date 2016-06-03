@@ -13,8 +13,8 @@
 #' @examples
 #' library(plyr)
 #' library(reshape)
-#' dset <- generate_absence(1000, 10, 0.001, 0, 6)
-#' dset <- generate_presence(dset, 10, 0, 10, 0, 6, 0.8, 0.5)
+#' dset <- generate_absence(1000, 0.001, 0, 6, 10)
+#' dset <- generate_presence(dset, 0, 6, 0.5, 0.8, 0, 10, 10)
 #' dset <- generate_overdiag(dset, 0.25)
 #' print(head(dset))
 #' @export

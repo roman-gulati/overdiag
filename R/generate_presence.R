@@ -6,32 +6,32 @@
 #'
 #' @param dset A data frame of simulated population as produced by
 #'   \code{generate_absence}.
-#' @param followup.years Number of years of follow-up.
-#' @param screen.start.year Year of follow-up at which screening starts.
-#' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param sojourn.min Minimum years of preclinical detectable period.
 #' @param sojourn.max Maximum years of preclinical detectable period.
-#' @param attendance Proportion of individuals who attend screening tests.
 #' @param sensitivity Proportion of relevant cancers detected by screening.
+#' @param attendance Proportion of individuals who attend screening tests.
+#' @param screen.start.year Year of follow-up at which screening starts.
+#' @param screen.stop.year Year of follow-up at which screening stops.
+#' @param followup.years Number of years of follow-up.
 #' @return A data frame of simulated cancer incidence organized by year
 #'   of preclinical onset, sojourn time, and year of clinical diagnosis.
 #' @seealso \code{\link{generate_absence}}, \code{\link{generate_overdiag}}
 #' @examples
 #' library(plyr)
 #' library(reshape)
-#' dset <- generate_absence(1000, 10, 0.001, 0, 6)
-#' dset <- generate_presence(dset, 10, 0, 10, 0, 6, 0.8, 0.5)
+#' dset <- generate_absence(1000, 0.001, 0, 6, 10)
+#' dset <- generate_presence(dset, 0, 6, 0.5, 0.8, 0, 10, 10)
 #' print(head(dset))
 #' @export
 
 generate_presence <- function(dset,
-                              followup.years,
-                              screen.start.year,
-                              screen.stop.year,
                               sojourn.min,
                               sojourn.max,
+                              sensitivity,
                               attendance,
-                              sensitivity){
+                              screen.start.year,
+                              screen.stop.year,
+                              followup.years){
     followup.years <- floor(followup.years)
     screen.start.year <- floor(screen.start.year)
     screen.stop.year <- floor(screen.stop.year)

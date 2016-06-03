@@ -4,25 +4,29 @@
 \alias{population_setting}
 \title{Simulate cancer incidence in a population setting.}
 \usage{
-population_setting(dset, pop.size = 1e+05, followup.years = 30,
-  onset.rate = 0.001, screen.start.year = 4, screen.stop.year = 30,
-  verbose = FALSE)
+population_setting(pop.size = 1e+05, onset.rate = 0.001, sojourn.min = 0,
+  sojourn.max = 6, sensitivity = 0.5, overdiag.rate = 0.25,
+  screen.start.year = 4, screen.stop.year = 30, followup.years = 30)
 }
 \arguments{
-\item{dset}{data frame containing \code{sojourn.min},
-\code{sojourn.max}, \code{sensitivity}, and \code{overdiag.rate}.}
-
 \item{pop.size}{Number of individuals in the simulated population.}
 
-\item{followup.years}{Number of years of follow-up.}
+\item{onset.rate}{Annual incidence rate of relevant preclinical cancers.}
 
-\item{onset.rate}{Number of relevant preclinical cancers that develop each year.}
+\item{sojourn.min}{Shortest relevant preclinical duration.}
+
+\item{sojourn.max}{Longest relevant preclinical duration.}
+
+\item{sensitivity}{Screen test episode sensitivity.}
+
+\item{overdiag.rate}{Proportion of screen-detected cancers that are
+overdiagnosed.}
 
 \item{screen.start.year}{Year of follow-up at which screening starts.}
 
 \item{screen.stop.year}{Year of follow-up at which screening stops.}
 
-\item{verbose}{A logical flag to print setting information.}
+\item{followup.years}{Number of years of follow-up.}
 }
 \value{
 A data frame of simulated cancer incidence organized by year of
@@ -47,9 +51,14 @@ population_incidence_3ways <- function(pop.size=1e5,
                     sojourn.max,
                     sensitivity,
                     overdiag.rate),
-                  population_setting,
-                  pop.size=pop.size,
-                  screen.start.year=screen.start.year)
+                  function(x)
+                  with(x, population_setting(pop.size=pop.size,
+                                             sojourn.min=sojourn.min,
+                                             sojourn.max=sojourn.max,
+                                             sensitivity=sensitivity,
+                                             overdiag.rate=overdiag.rate,
+                                             screen.start.year=screen.start.year))
+                  )
     return(pset)
 }
 
@@ -71,8 +80,6 @@ multipopulation_incidence_3ways <- function(pop.size=1e5,
     mpset <- ddply(dissemination,
                    .(proportion, start.year),
                    function(x){
-                       cat('proportion:', with(x, proportion), '\\n')
-                       cat('start.year:', with(x, start.year), '\\n')
                        with(x,
         population_incidence_3ways(pop.size=proportion*pop.size,
                                    screen.start.year=start.year))

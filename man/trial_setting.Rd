@@ -4,18 +4,32 @@
 \alias{trial_setting}
 \title{Simulate cancer incidence in a trial setting.}
 \usage{
-trial_setting(dset, arm.size = 50000, followup.years = 30,
-  onset.rate = 0.001)
+trial_setting(arm.size = 50000, onset.rate = 0.001, sojourn.min = 0,
+  sojourn.max = 6, sensitivity = 0.5, attendance = 0.8,
+  overdiag.rate = 0.25, screen.start.year = 1, screen.stop.year = 30,
+  followup.years = 30)
 }
 \arguments{
-\item{dset}{A data frame containing \code{sojourn.min},
-\code{sojourn.max}, \code{sensitivity}, and \code{overdiag.rate}.}
-
 \item{arm.size}{Number of individuals in each trial arm.}
 
-\item{followup.years}{Number of years of follow-up.}
+\item{onset.rate}{Annual incidence rate of relevant preclinical cancers.}
 
-\item{onset.rate}{Number of relevant preclinical cancers that develop each year.}
+\item{sojourn.min}{Shortest relevant preclinical duration.}
+
+\item{sojourn.max}{Longest relevant preclinical duration.}
+
+\item{sensitivity}{Screen test episode sensitivity.}
+
+\item{attendance}{Proportion of participants who attend a screen test.}
+
+\item{overdiag.rate}{Proportion of screen-detected cancers that are
+overdiagnosed.}
+
+\item{screen.start.year}{Year of follow-up at which screening starts.}
+
+\item{screen.stop.year}{Year of follow-up at which screening stops.}
+
+\item{followup.years}{Number of years of follow-up.}
 }
 \value{
 A data frame of simulated cancer incidence organized by year of
@@ -53,7 +67,15 @@ trial_incidence_3types <- function(){
                     screen.start.year,
                     screen.stop.year,
                     type),
-                  trial_setting)
+                  function(x)
+                  with(x, trial_setting(sojourn.min=sojourn.min,
+                                        sojourn.max=sojourn.max,
+                                        sensitivity=sensitivity,
+                                        attendance=attendance,
+                                        overdiag.rate=overdiag.rate,
+                                        screen.start.year=screen.start.year,
+                                        screen.stop.year=screen.stop.year))
+                  )
     tset <- transform(tset, count_clinical=ifelse(year == 0, 0, count_clinical))
     newscreen <- subset(tset, arm == 'screen' & type == 'screen-continue')
     newcontrol <- subset(tset, arm == 'screen' & type == 'screen-continue-delay')

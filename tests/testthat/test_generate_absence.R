@@ -1,16 +1,16 @@
 context('Simulated incidence in the absence of screening')
 
 pop.size <- 1000
-followup.years <- 10
 onset.rate <- 0.001
 sojourn.min <- 0
 sojourn.max <- 6
+followup.years <- 10
 
 dset <- generate_absence(pop.size,
-                         followup.years,
                          onset.rate,
                          sojourn.min,
-                         sojourn.max)
+                         sojourn.max,
+                         followup.years)
 
 test_that('Sojourn times have correct range', {
           sojourn.time.range <- seq(sojourn.min, sojourn.max)

@@ -3,15 +3,16 @@
 #' Generate a data frame representing a population of \code{pop.size}
 #' individuals and record relevant cancers diagnosed with and without screening
 #' and overdiagnosed cancers.
-#'
-#' @param dset data frame containing \code{sojourn.min},
-#'   \code{sojourn.max}, \code{sensitivity}, and \code{overdiag.rate}.
 #' @param pop.size Number of individuals in the simulated population.
-#' @param followup.years Number of years of follow-up.
-#' @param onset.rate Number of relevant preclinical cancers that develop each year.
+#' @param onset.rate Annual incidence rate of relevant preclinical cancers.
+#' @param sojourn.min Shortest relevant preclinical duration.
+#' @param sojourn.max Longest relevant preclinical duration.
+#' @param sensitivity Screen test episode sensitivity.
+#' @param overdiag.rate Proportion of screen-detected cancers that are
+#'   overdiagnosed.
 #' @param screen.start.year Year of follow-up at which screening starts.
 #' @param screen.stop.year Year of follow-up at which screening stops.
-#' @param verbose A logical flag to print setting information.
+#' @param followup.years Number of years of follow-up.
 #' @return A data frame of simulated cancer incidence organized by year of
 #'   preclinical onset, sojourn time, and year of diagnosis.
 #' @seealso \code{\link{trial_setting}}
@@ -29,9 +30,14 @@
 #'                     sojourn.max,
 #'                     sensitivity,
 #'                     overdiag.rate),
-#'                   population_setting,
-#'                   pop.size=pop.size,
-#'                   screen.start.year=screen.start.year)
+#'                   function(x)
+#'                   with(x, population_setting(pop.size=pop.size,
+#'                                              sojourn.min=sojourn.min,
+#'                                              sojourn.max=sojourn.max,
+#'                                              sensitivity=sensitivity,
+#'                                              overdiag.rate=overdiag.rate,
+#'                                              screen.start.year=screen.start.year))
+#'                   )
 #'     return(pset)
 #' }
 #' 
@@ -53,8 +59,6 @@
 #'     mpset <- ddply(dissemination,
 #'                    .(proportion, start.year),
 #'                    function(x){
-#'                        cat('proportion:', with(x, proportion), '\n')
-#'                        cat('start.year:', with(x, start.year), '\n')
 #'                        with(x,
 #'         population_incidence_3ways(pop.size=proportion*pop.size,
 #'                                    screen.start.year=start.year))
@@ -77,41 +81,38 @@
 #' mpset_3ways <- rbind(mpset_default, mpset_variant)
 #' @export
 
-population_setting <- function(dset,
-                               pop.size=1e5,
-                               followup.years=30,
+population_setting <- function(pop.size=1e5,
                                onset.rate=0.001,
+                               sojourn.min=0,
+                               sojourn.max=6,
+                               sensitivity=0.5,
+                               overdiag.rate=0.25,
                                screen.start.year=4,
                                screen.stop.year=30,
-                               verbose=FALSE){
-    if(verbose)
-        with(dset, cat(paste(rep('-', 40), collapse=''),
-                       '\nsensitivity:', as.character(unique(sensitivity)),
-                       '\noverdiag.rate:', as.character(unique(overdiag.rate)),
-                       '\n'))
+                               followup.years=30){
     # generate population of pop.size individuals and
     # record year of clinical diagnosis for batches of relevant
     # cancers that develop in each year with a given sojourn time
-    pset <- with(dset, generate_absence(pop.size,
-                                        followup.years,
-                                        onset.rate,
-                                        sojourn.min,
-                                        sojourn.max))
+    pset <- generate_absence(pop.size,
+                             onset.rate,
+                             sojourn.min,
+                             sojourn.max,
+                             followup.years)
     # screen the population under assumed sensitivity by
     # counting screen diagnoses in each year of screening
     # for batches of relevant cancers that develop in each
     # year with a given sojourn time
-    pset <- with(dset, generate_presence(pset,
-                                         followup.years,
-                                         screen.start.year,
-                                         screen.stop.year,
-                                         sojourn.min,
-                                         sojourn.max,
-                                         sensitivity,
-                                         attendance=1))
+    pset <- generate_presence(pset,
+                              sojourn.min,
+                              sojourn.max,
+                              sensitivity,
+                              attendance=1,
+                              screen.start.year,
+                              screen.stop.year,
+                              followup.years)
     # append overdiagnoses as a constant fraction of screen
     # diagnoses in each year of screening
-    pset <- with(dset, generate_overdiag(pset, overdiag.rate))
+    pset <- generate_overdiag(pset, overdiag.rate)
     # isolate clinical diagnoses by year and sojourn time
     clinical_sojourn <- ddply(pset,
                               .(clinical_year, sojourn),
@@ -134,15 +135,6 @@ population_setting <- function(dset,
                       summarize,
                       count_screen=sum(count_screen),
                       count_overdiag=sum(count_overdiag))
-    if(verbose)
-        if(with(dset, sojourn.min != sojourn.max & overdiag.rate == 0)){
-            leadtime <- with(dset,
-                             sum(sapply(seq(sojourn.max-1),
-                                        function(x)
-                                            sensitivity*(1-sensitivity)^(sojourn.max-x-1)*x)))
-            cat('sensitivity:', with(dset, sensitivity), '\n')
-            cat('lead time:', round(leadtime, 2), '\n')
-        }
     # pad screen diagnoses and overdiagnoses with 0
     # in all pre-screening years
     screened <- rbind(data.frame(screen_year=seq(0, screen.start.year-1),

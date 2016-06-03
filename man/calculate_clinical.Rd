@@ -4,20 +4,20 @@
 \alias{calculate_clinical}
 \title{Calculate clinical incidence in the presence of screening.}
 \usage{
-calculate_clinical(dset, screen.start.year, screen.stop.year, attendance,
-  sensitivity)
+calculate_clinical(dset, sensitivity, attendance, screen.start.year,
+  screen.stop.year)
 }
 \arguments{
 \item{dset}{A data frame of cancer incidence as produced by
 \code{generate_absence}.}
 
-\item{screen.start.year}{Year of follow-up at which screening starts.}
-
-\item{screen.stop.year}{Year of follow-up at which screening stops.}
+\item{sensitivity}{Proportion of relevant cancers detected by screening.}
 
 \item{attendance}{Proportion of individuals who attend screening tests.}
 
-\item{sensitivity}{Proportion of relevant cancers detected by screening.}
+\item{screen.start.year}{Year of follow-up at which screening starts.}
+
+\item{screen.stop.year}{Year of follow-up at which screening stops.}
 }
 \value{
 A data frame of simulated cancer incidence organized by year of
@@ -41,14 +41,14 @@ This function expects that the input data frame \code{dset} contains
 \examples{
 library(plyr)
 library(reshape)
-dset <- generate_absence(1000, 10, 0.001, 0, 6)
+dset <- generate_absence(1000, 0.001, 0, 6, 10)
 cset <- ddply(dset,
               .(sojourn),
               calculate_clinical,
-              screen.start.year=0,
-              screen.stop.year=10,
+              sensitivity=0.5,
               attendance=0.8,
-              sensitivity=0.5)
+              screen.start.year=0,
+              screen.stop.year=10)
 print(head(cset))
 }
 \seealso{

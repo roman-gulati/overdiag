@@ -4,26 +4,26 @@
 \alias{generate_presence}
 \title{Simulate cancer incidence in the presence of screening.}
 \usage{
-generate_presence(dset, followup.years, screen.start.year, screen.stop.year,
-  sojourn.min, sojourn.max, attendance, sensitivity)
+generate_presence(dset, sojourn.min, sojourn.max, sensitivity, attendance,
+  screen.start.year, screen.stop.year, followup.years)
 }
 \arguments{
 \item{dset}{A data frame of simulated population as produced by
 \code{generate_absence}.}
 
-\item{followup.years}{Number of years of follow-up.}
+\item{sojourn.min}{Minimum years of preclinical detectable period.}
+
+\item{sojourn.max}{Maximum years of preclinical detectable period.}
+
+\item{sensitivity}{Proportion of relevant cancers detected by screening.}
+
+\item{attendance}{Proportion of individuals who attend screening tests.}
 
 \item{screen.start.year}{Year of follow-up at which screening starts.}
 
 \item{screen.stop.year}{Year of follow-up at which screening stops.}
 
-\item{sojourn.min}{Minimum years of preclinical detectable period.}
-
-\item{sojourn.max}{Maximum years of preclinical detectable period.}
-
-\item{attendance}{Proportion of individuals who attend screening tests.}
-
-\item{sensitivity}{Proportion of relevant cancers detected by screening.}
+\item{followup.years}{Number of years of follow-up.}
 }
 \value{
 A data frame of simulated cancer incidence organized by year
@@ -37,8 +37,8 @@ year with a given sojourn time.
 \examples{
 library(plyr)
 library(reshape)
-dset <- generate_absence(1000, 10, 0.001, 0, 6)
-dset <- generate_presence(dset, 10, 0, 10, 0, 6, 0.8, 0.5)
+dset <- generate_absence(1000, 0.001, 0, 6, 10)
+dset <- generate_presence(dset, 0, 6, 0.5, 0.8, 0, 10, 10)
 print(head(dset))
 }
 \seealso{

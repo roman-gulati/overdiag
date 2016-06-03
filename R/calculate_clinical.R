@@ -24,22 +24,22 @@
 #' @examples
 #' library(plyr)
 #' library(reshape)
-#' dset <- generate_absence(1000, 10, 0.001, 0, 6)
+#' dset <- generate_absence(1000, 0.001, 0, 6, 10)
 #' cset <- ddply(dset,
 #'               .(sojourn),
 #'               calculate_clinical,
-#'               screen.start.year=0,
-#'               screen.stop.year=10,
+#'               sensitivity=0.5,
 #'               attendance=0.8,
-#'               sensitivity=0.5)
+#'               screen.start.year=0,
+#'               screen.stop.year=10)
 #' print(head(cset))
 #' @export
 
 calculate_clinical <- function(dset,
-                               screen.start.year,
-                               screen.stop.year,
+                               sensitivity,
                                attendance,
-                               sensitivity){
+                               screen.start.year,
+                               screen.stop.year){
     stopifnot(with(dset, length(unique(sojourn)) == 1))
     screen.start.year <- floor(screen.start.year)
     screen.stop.year <- floor(screen.stop.year)

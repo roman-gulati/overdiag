@@ -6,11 +6,11 @@
 #' follow-up.
 #'
 #' @param pop.size Number of individuals in the simulated population.
-#' @param followup.years Number of years of follow-up.
 #' @param onset.rate Individual rate at which relevant preclinical cancers
 #'   develop each year.
 #' @param sojourn.min Minimum years of preclinical detectable period.
 #' @param sojourn.max Maximum years of preclinical detectable period.
+#' @param followup.years Number of years of follow-up.
 #' @return A data frame of simulated cancer incidence organized by year of
 #'   preclinical onset, number of preclinical cancers, sojourn time, and year of
 #'   clinical diagnosis.
@@ -18,15 +18,15 @@
 #' @examples
 #' library(plyr)
 #' library(reshape)
-#' dset <- generate_absence(1000, 10, 0.001, 0, 6)
+#' dset <- generate_absence(1000, 0.001, 0, 6, 10)
 #' print(head(dset))
 #' @export
 
 generate_absence <- function(pop.size,
-                             followup.years,
                              onset.rate,
                              sojourn.min,
-                             sojourn.max){
+                             sojourn.max,
+                             followup.years){
     pop.size <- floor(pop.size)
     followup.years <- floor(followup.years)
     stopifnot(pop.size > 0)

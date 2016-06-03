@@ -3,12 +3,17 @@
 #' Generate a data frame representing a screening trial of \code{arm.size}
 #' individuals in each arm and record relevant cancers diagnosed with and
 #' without screening and overdiagnosed cancers.
-#'
-#' @param dset A data frame containing \code{sojourn.min},
-#'   \code{sojourn.max}, \code{sensitivity}, and \code{overdiag.rate}.
 #' @param arm.size Number of individuals in each trial arm.
+#' @param onset.rate Annual incidence rate of relevant preclinical cancers.
+#' @param sojourn.min Shortest relevant preclinical duration.
+#' @param sojourn.max Longest relevant preclinical duration.
+#' @param sensitivity Screen test episode sensitivity.
+#' @param attendance Proportion of participants who attend a screen test.
+#' @param overdiag.rate Proportion of screen-detected cancers that are
+#'   overdiagnosed.
+#' @param screen.start.year Year of follow-up at which screening starts.
+#' @param screen.stop.year Year of follow-up at which screening stops.
 #' @param followup.years Number of years of follow-up.
-#' @param onset.rate Number of relevant preclinical cancers that develop each year.
 #' @return A data frame of simulated cancer incidence organized by year of
 #'   preclinical onset, sojourn time, and year of diagnosis.
 #' @seealso \code{\link{population_setting}}
@@ -39,7 +44,15 @@
 #'                     screen.start.year,
 #'                     screen.stop.year,
 #'                     type),
-#'                   trial_setting)
+#'                   function(x)
+#'                   with(x, trial_setting(sojourn.min=sojourn.min,
+#'                                         sojourn.max=sojourn.max,
+#'                                         sensitivity=sensitivity,
+#'                                         attendance=attendance,
+#'                                         overdiag.rate=overdiag.rate,
+#'                                         screen.start.year=screen.start.year,
+#'                                         screen.stop.year=screen.stop.year))
+#'                   )
 #'     tset <- transform(tset, count_clinical=ifelse(year == 0, 0, count_clinical))
 #'     newscreen <- subset(tset, arm == 'screen' & type == 'screen-continue')
 #'     newcontrol <- subset(tset, arm == 'screen' & type == 'screen-continue-delay')
@@ -52,34 +65,40 @@
 #' tset_3types <- trial_incidence_3types()
 #' @export
 
-trial_setting <- function(dset,
-                          arm.size=50000,
-                          followup.years=30,
-                          onset.rate=0.001){
+trial_setting <- function(arm.size=50000,
+                          onset.rate=0.001,
+                          sojourn.min=0,
+                          sojourn.max=6,
+                          sensitivity=0.5,
+                          attendance=0.8,
+                          overdiag.rate=0.25,
+                          screen.start.year=1,
+                          screen.stop.year=30,
+                          followup.years=30){
     # generate trial population of arm.size individuals and
     # record year of clinical diagnosis for batches of relevant
     # cancers that develop in each year with a given sojourn time
     # to serve as a basis for either arm
-    tset <- with(dset, generate_absence(arm.size,
-                                        followup.years,
-                                        onset.rate,
-                                        sojourn.min,
-                                        sojourn.max))
+    tset <- generate_absence(arm.size,
+                             onset.rate,
+                             sojourn.min,
+                             sojourn.max,
+                             followup.years)
     # construct the control arm by "screening" the trial population
     # under 0 sensitivity and counting screen diagnoses in each year
     # of screening for batches of relevant cancers that develop in each
     # year with a given sojourn time
-    cset <- with(dset, generate_presence(tset,
-                                         followup.years,
-                                         screen.start.year,
-                                         screen.stop.year,
-                                         sojourn.min,
-                                         sojourn.max,
-                                         0,
-                                         0))
+    cset <- generate_presence(tset,
+                              sojourn.min,
+                              sojourn.max,
+                              0,
+                              0,
+                              screen.start.year,
+                              screen.stop.year,
+                              followup.years)
     # append overdiagnoses as a constant fraction of screen
     # diagnoses in each year of screening
-    cset <- generate_overdiag(cset, with(dset, overdiag.rate))
+    cset <- generate_overdiag(cset, overdiag.rate)
     # count control arm screen diagnoses in each year of screening
     control_screen <- ddply(cset,
                            .(screen_year),
@@ -110,17 +129,17 @@ trial_setting <- function(dset,
     # given sensitivity and counting screen diagnoses in each year of
     # screening for batches of relevant cancers that develop in each
     # year with a given sojourn time
-    sset <- with(dset, generate_presence(tset,
-                                         followup.years,
-                                         screen.start.year,
-                                         screen.stop.year,
-                                         sojourn.min,
-                                         sojourn.max,
-                                         sensitivity,
-                                         attendance))
+    sset <- generate_presence(tset,
+                              sojourn.min,
+                              sojourn.max,
+                              sensitivity,
+                              attendance,
+                              screen.start.year,
+                              screen.stop.year,
+                              followup.years)
     # append overdiagnoses as a constant fraction of screen
     # diagnoses in each year of screening
-    sset <- generate_overdiag(sset, with(dset, overdiag.rate))
+    sset <- generate_overdiag(sset, overdiag.rate)
     # count screen arm screen diagnoses in each year of screening
     screen_screen <- ddply(sset,
                            .(screen_year),

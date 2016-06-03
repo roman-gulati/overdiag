@@ -4,12 +4,10 @@
 \alias{generate_absence}
 \title{Simulate cancer incidence in the absence of screening.}
 \usage{
-generate_absence(pop.size, followup.years, onset.rate, sojourn.min, sojourn.max)
+generate_absence(pop.size, onset.rate, sojourn.min, sojourn.max, followup.years)
 }
 \arguments{
 \item{pop.size}{Number of individuals in the simulated population.}
-
-\item{followup.years}{Number of years of follow-up.}
 
 \item{onset.rate}{Individual rate at which relevant preclinical cancers
 develop each year.}
@@ -17,6 +15,8 @@ develop each year.}
 \item{sojourn.min}{Minimum years of preclinical detectable period.}
 
 \item{sojourn.max}{Maximum years of preclinical detectable period.}
+
+\item{followup.years}{Number of years of follow-up.}
 }
 \value{
 A data frame of simulated cancer incidence organized by year of
@@ -32,7 +32,7 @@ follow-up.
 \examples{
 library(plyr)
 library(reshape)
-dset <- generate_absence(1000, 10, 0.001, 0, 6)
+dset <- generate_absence(1000, 0.001, 0, 6, 10)
 print(head(dset))
 }
 \seealso{
