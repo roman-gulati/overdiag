@@ -4,9 +4,8 @@
 \alias{multipopulation_plot}
 \title{Plot incidence with gradual dissemination of screening in a population.}
 \usage{
-multipopulation_plot(dset, minyear = 0, maxyear = 20, mininc = 0,
-  maxinc = 200, line.size = 0.1, minyear.text = 2,
-  maxyear.text = maxyear - 1, text.size = 3, text.offset = 12,
+multipopulation_plot(dset, minyear = 0, maxyear = 20, line.size = 0.1,
+  minyear.text = 2, maxyear.text = maxyear - 1, text.size = 3,
   text.angle = 30)
 }
 \arguments{
@@ -16,10 +15,6 @@ multipopulation_plot(dset, minyear = 0, maxyear = 20, mininc = 0,
 
 \item{maxyear}{Maximum year to display projections.}
 
-\item{mininc}{Minimum incidence to display projections.}
-
-\item{maxinc}{Maximum incidence to display projections.}
-
 \item{line.size}{Width of lines to display projections.}
 
 \item{minyear.text}{Minimum year to display text annotation.}
@@ -27,8 +22,6 @@ multipopulation_plot(dset, minyear = 0, maxyear = 20, mininc = 0,
 \item{maxyear.text}{Maximum year to display text annotation.}
 
 \item{text.size}{Scale of text annotation.}
-
-\item{text.offset}{Scale of gap between projections and text annotation.}
 
 \item{text.angle}{Angle of text annotation.}
 }

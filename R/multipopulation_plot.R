@@ -6,13 +6,10 @@
 #' @param dset A data frame as produced by \code{multipopulation_setting}.
 #' @param minyear Minimum year to display projections.
 #' @param maxyear Maximum year to display projections.
-#' @param mininc Minimum incidence to display projections.
-#' @param maxinc Maximum incidence to display projections.
 #' @param line.size Width of lines to display projections.
 #' @param minyear.text Minimum year to display text annotation.
 #' @param maxyear.text Maximum year to display text annotation.
 #' @param text.size Scale of text annotation.
-#' @param text.offset Scale of gap between projections and text annotation.
 #' @param text.angle Angle of text annotation.
 #' @return A ggplot object.
 #' @seealso \code{\link{trial_plot}}
@@ -30,13 +27,10 @@
 multipopulation_plot <- function(dset,
                                  minyear=0,
                                  maxyear=20,
-                                 mininc=0,
-                                 maxinc=200,
                                  line.size=0.1,
                                  minyear.text=2,
                                  maxyear.text=maxyear-1,
                                  text.size=3,
-                                 text.offset=12,
                                  text.angle=30){
     dset <- droplevels(subset(dset, minyear <= year & year <= maxyear))
     # extract background incidence
@@ -57,6 +51,8 @@ multipopulation_plot <- function(dset,
     dset <- transform(dset,
                       exact=year == year[exact_year],
                       exact_tag='Unbiased')
+    maxinc <- with(dset, max(count_clinical+count_screen+count_overdiag))*1.34
+    text.offset <- maxinc/20
     dset.text <- subset(dset, year %in% seq(minyear.text, maxyear.text))
     dset.text <- transform(dset.text,
                            text_size=text.size,
@@ -90,7 +86,8 @@ multipopulation_plot <- function(dset,
                                 breaks=seq(minyear, maxyear, by=2),
                                 limits=c(minyear, maxyear),
                                 expand=c(0, 0))
-    gg <- gg+scale_y_continuous(name='Annual incidence per 100,000 individuals\n',
+    gg <- gg+scale_y_continuous(name='Annual number of cases\n',
+                                limits=c(0, maxinc),
                                 expand=c(0, 0))
     gg <- gg+geom_text(data=dset.text,
                        aes(x=year,
@@ -104,31 +101,33 @@ multipopulation_plot <- function(dset,
                            label=paste0('+', round(count_overdiag)),
                            size=text_size,
                            angle=text_angle))
+    baseline <- subset(dset, year == 0)[['count_clinical']]
     if(nrow(subset(dset.text, count_clinical <= text_offset)) > 0)
         gg <- gg+geom_text(data=subset(dset.text, count_clinical <= text_offset),
                            aes(x=year,
                                y=count_clinical+text_offset,
-                               label=paste0('-', 100-round(count_clinical)),
+                               label=paste0('-', round(baseline-count_clinical)),
                                size=text_size,
                                angle=text_angle))
-    gg <- gg+geom_text(data=subset(dset.text, count_clinical > text_offset),
-                       aes(x=year,
-                           y=count_clinical-text_offset,
-                           label=paste0('-', 100-round(count_clinical)),
-                           size=text_size,
-                           angle=text_angle))
-    gg <- gg+geom_segment(data=subset(dset, exact),
-                          aes(x=year,
-                              xend=year,
-                              y=maxinc*0.85,
-                              yend=maxinc*0.7),
-                          arrow=arrow(length=unit(0.3, 'cm'), type='closed'))
+    if(nrow(subset(dset.text, count_clinical > text_offset)) > 0)
+        gg <- gg+geom_text(data=subset(dset.text, count_clinical > text_offset),
+                           aes(x=year,
+                               y=count_clinical-text_offset,
+                               label=paste0('-', round(baseline-count_clinical)),
+                               size=text_size,
+                               angle=text_angle))
+    gg <- gg+geom_vline(data=subset(dset, exact),
+                        aes(xintercept=year),
+                        colour='red')
     gg <- gg+geom_text(data=subset(dset, exact),
                        aes(x=year,
-                           y=maxinc*0.9,
+                           y=maxinc,
                            label=exact_tag),
-                       vjust=0,
-                       size=4)
+                       colour='red',
+                       angle=90,
+                       hjust=1.5,
+                       vjust=1.5,
+                       size=5)
     return(gg)
 }
 
