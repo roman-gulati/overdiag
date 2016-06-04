@@ -116,18 +116,20 @@ multipopulation_plot <- function(dset,
                                label=paste0('-', round(baseline-count_clinical)),
                                size=text_size,
                                angle=text_angle))
-    gg <- gg+geom_vline(data=subset(dset, exact),
-                        aes(xintercept=year),
-                        colour='red')
-    gg <- gg+geom_text(data=subset(dset, exact),
-                       aes(x=year,
-                           y=maxinc,
-                           label=exact_tag),
-                       colour='red',
-                       angle=90,
-                       hjust=1.5,
-                       vjust=1.5,
-                       size=5)
+    if(nrow(subset(dset, exact) > 0)){
+        gg <- gg+geom_vline(data=subset(dset, exact),
+                            aes(xintercept=year),
+                            colour='red')
+        gg <- gg+geom_text(data=subset(dset, exact),
+                           aes(x=year,
+                               y=maxinc,
+                               label=exact_tag),
+                           colour='red',
+                           angle=90,
+                           hjust=1.5,
+                           vjust=1.5,
+                           size=5)
+    }
     return(gg)
 }
 

@@ -4,8 +4,7 @@
 \alias{trial_plot}
 \title{Plot incidence in a randomized trial.}
 \usage{
-trial_plot(dset, minyear = 0, maxyear = 12, maxanninc = 150,
-  maxcuminc = 800)
+trial_plot(dset, minyear = 0, maxyear = 12)
 }
 \arguments{
 \item{dset}{A data frame as produced by \code{multipopulation_setting}.}
@@ -13,10 +12,6 @@ trial_plot(dset, minyear = 0, maxyear = 12, maxanninc = 150,
 \item{minyear}{Minimum year to display projections.}
 
 \item{maxyear}{Maximum year to display projections.}
-
-\item{maxanninc}{Maximum annual incidence to display projections.}
-
-\item{maxcuminc}{Maximum cumulative incidence to display projections.}
 }
 \value{
 A ggplot object.

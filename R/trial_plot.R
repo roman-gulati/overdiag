@@ -5,8 +5,6 @@
 #' @param dset A data frame as produced by \code{multipopulation_setting}.
 #' @param minyear Minimum year to display projections.
 #' @param maxyear Maximum year to display projections.
-#' @param maxanninc Maximum annual incidence to display projections.
-#' @param maxcuminc Maximum cumulative incidence to display projections.
 #' @return A ggplot object.
 #' @seealso \code{\link{multipopulation_plot}}
 #' @examples
@@ -20,11 +18,7 @@
 #' }
 #' @export
 
-trial_plot <- function(dset,
-                       minyear=0,
-                       maxyear=12,
-                       maxanninc=150,
-                       maxcuminc=800){
+trial_plot <- function(dset, minyear=0, maxyear=12){
     dset <- droplevels(subset(dset, minyear <= year & year <= maxyear))
     dset <- ddply(dset,
                   .(arm),
@@ -76,6 +70,8 @@ trial_plot <- function(dset,
                          exact_tag='Unbiased')
                       return(x)
                   })
+    maxanninc <- with(subset(dset, measure == 'Annual'), max(count_total))*1.34
+    maxcuminc <- with(subset(dset, measure == 'Cumulative'), max(count_total))*1.34
     theme_set(theme_bw())
     theme_update(panel.grid.major=element_blank(),
                  panel.grid.minor=element_blank(),
@@ -158,18 +154,23 @@ trial_plot <- function(dset,
                                   size=1,
                                   colour=alpha('purple', 0.4))
     }
-    gg <- gg+geom_segment(data=subset(dset, exact),
-                          aes(x=year,
-                              xend=year,
-                              y=1.75*count_total,
-                              yend=1.25*count_total),
-                          arrow=arrow(length=unit(0.3, 'cm'), type='closed'))
-    gg <- gg+geom_text(data=subset(dset, exact),
-                       aes(x=year,
-                           y=2*count_total,
-                           label=exact_tag),
-                       vjust=0,
-                       size=4)
+    if(nrow(subset(dset, exact) > 0)){
+        maxinc <- ifelse(subset(dset, exact)[['measure']] == 'Annual',
+                         maxanninc,
+                         maxcuminc)
+        gg <- gg+geom_vline(data=subset(dset, exact),
+                            aes(xintercept=year),
+                            colour='red')
+        gg <- gg+geom_text(data=subset(dset, exact),
+                           aes(x=year,
+                               y=maxinc,
+                               label=exact_tag),
+                           colour='red',
+                           angle=90,
+                           hjust=1.1,
+                           vjust=1.5,
+                           size=5)
+    }
     return(gg)
 }
 
