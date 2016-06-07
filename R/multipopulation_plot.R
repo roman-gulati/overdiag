@@ -46,10 +46,14 @@ multipopulation_plot <- function(dset,
     year_offset <- screen_inc > 0
     # calculate first year excess matches true overdiagnosis
     exact <- year_offset & abs(overdiag_inc/excess_total-1) < 0.000001
-    exact_year <- min(which(exact))
+    if(any(exact)){
+        exact_flag <- min(which(exact))
+        exact_year <- with(dset, year[exact_flag])
+    } else
+        exact_year <- -1
     # append exact year
     dset <- transform(dset,
-                      exact=year == year[exact_year],
+                      exact=year == exact_year,
                       exact_tag='Unbiased')
     maxinc <- with(dset, max(count_clinical+count_screen+count_overdiag))*1.34
     text.offset <- maxinc/20
@@ -116,7 +120,7 @@ multipopulation_plot <- function(dset,
                                label=paste0('-', round(baseline-count_clinical)),
                                size=text_size,
                                angle=text_angle))
-    if(nrow(subset(dset, exact) > 0)){
+    if(nrow(subset(dset, exact)) > 0){
         gg <- gg+geom_vline(data=subset(dset, exact),
                             aes(xintercept=year),
                             colour='red')

@@ -61,12 +61,16 @@ trial_plot <- function(dset, minyear=0, maxyear=12){
                           year_offset <- screen_screen > 0
                       # calculate first year excess matches true overdiagnosis
                       exact <- year_offset & abs(excess_overdiag/excess_total-1) < 0.000001
-                      exact_year <- min(which(exact))
-                      stopifnot(isTRUE(all.equal(screen_year[exact_year],
-                                                 control_year[exact_year])))
+                      if(any(exact)){
+                          exact_year <- min(which(exact))
+                          exact_screen <- screen_year[exact_year]
+                          exact_control <- control_year[exact_year]
+                          stopifnot(isTRUE(all.equal(exact_screen, exact_control)))
+                      } else
+                          exact_screen <- -1
                       # append exact years to stratum
                       x <- transform(x,
-                         exact=arm == 'screen' & year == screen_year[exact_year],
+                         exact=arm == 'screen' & year == exact_screen,
                          exact_tag='Unbiased')
                       return(x)
                   })
@@ -154,7 +158,7 @@ trial_plot <- function(dset, minyear=0, maxyear=12){
                                   size=1,
                                   colour=alpha('purple', 0.4))
     }
-    if(nrow(subset(dset, exact) > 0)){
+    if(nrow(subset(dset, exact)) > 0){
         maxinc <- ifelse(subset(dset, exact)[['measure']] == 'Annual',
                          maxanninc,
                          maxcuminc)
