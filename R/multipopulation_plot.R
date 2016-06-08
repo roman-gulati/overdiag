@@ -87,7 +87,7 @@ multipopulation_plot <- function(dset,
     gg <- gg+geom_line(aes(x=year, y=count_clinical+count_screen), size=line.size)
     gg <- gg+geom_line(aes(x=year, y=count_clinical+count_screen+count_overdiag), size=line.size)
     gg <- gg+scale_x_continuous(name='\nYear',
-                                breaks=seq(minyear, maxyear, by=2),
+                                breaks=seq(minyear, maxyear),
                                 limits=c(minyear, maxyear),
                                 expand=c(0, 0))
     gg <- gg+scale_y_continuous(name='Annual number of cases\n',

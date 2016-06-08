@@ -83,7 +83,7 @@ trial_plot <- function(dset, minyear=0, maxyear=12){
                  axis.text=element_text(size=14),
                  axis.title=element_text(angle=0, size=18),
                  strip.background=element_rect(fill=NA, colour=NA),
-                 strip.text=element_text(angle=0, size=12),
+                 strip.text=element_text(angle=0, size=14),
                  legend.position='none')
     gg <- ggplot(dset)
     # highlight overdiagnosis in the screen arm
@@ -120,7 +120,7 @@ trial_plot <- function(dset, minyear=0, maxyear=12){
                         shape=19)
     gg <- gg+facet_grid(measure~., scales='free_y')
     gg <- gg+scale_x_continuous(name='\nYears of follow-up',
-                                breaks=seq(minyear, maxyear, by=2),
+                                breaks=seq(minyear, maxyear),
                                 limits=c(minyear, maxyear),
                                 expand=c(0, 0.5))
     gg <- gg+scale_y_continuous(name='Number of cases\n',
