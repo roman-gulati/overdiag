@@ -1,13 +1,13 @@
 Package: overdiag
 Title: A package to investigate empirical estimates of overdiagnosis
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: person("Roman", "Gulati", email="rgulati@fredhutch.org", role=c("aut", "cre"))
 Description: This package implements a deterministic model to project disease
   incidence in population and trial settings. The projections can be used to
   examine bias in empirical estimates of overdiagnosis and/or determine the
   first time point at which empirical estimates are unbiased.
-URL: http://github.com/roman-gulati/overdiag
-BugReports: http://github.com/roman-gulati/overdiag/issues
+URL: https://github.com/roman-gulati/overdiag
+BugReports: https://github.com/roman-gulati/overdiag/issues
 Depends:
     R (>= 3.2.2)
 Imports:
